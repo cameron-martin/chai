@@ -8,95 +8,9 @@ module.exports = require('./lib/chai');
  * MIT Licensed
  */
 
-var used = []
-  , exports = module.exports = {};
+module.exports = require('./factory')();
 
-/*!
- * Chai version
- */
-
-exports.version = '3.5.0';
-
-/*!
- * Assertion Error
- */
-
-exports.AssertionError = require('assertion-error');
-
-/*!
- * Utils for plugins (not exported)
- */
-
-var util = require('./chai/utils');
-
-/**
- * # .use(function)
- *
- * Provides a way to extend the internals of Chai
- *
- * @param {Function}
- * @returns {this} for chaining
- * @api public
- */
-
-exports.use = function (fn) {
-  if (!~used.indexOf(fn)) {
-    fn(this, util);
-    used.push(fn);
-  }
-
-  return this;
-};
-
-/*!
- * Utility Functions
- */
-
-exports.util = util;
-
-/*!
- * Configuration
- */
-
-var config = require('./chai/config');
-exports.config = config;
-
-/*!
- * Primary `Assertion` prototype
- */
-
-var assertion = require('./chai/assertion');
-exports.use(assertion);
-
-/*!
- * Core Assertions
- */
-
-var core = require('./chai/core/assertions');
-exports.use(core);
-
-/*!
- * Expect interface
- */
-
-var expect = require('./chai/interface/expect');
-exports.use(expect);
-
-/*!
- * Should interface
- */
-
-var should = require('./chai/interface/should');
-exports.use(should);
-
-/*!
- * Assert interface
- */
-
-var assert = require('./chai/interface/assert');
-exports.use(assert);
-
-},{"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":22,"assertion-error":30}],3:[function(require,module,exports){
+},{"./factory":30}],3:[function(require,module,exports){
 /*!
  * chai
  * http://chaijs.com
@@ -4288,7 +4202,7 @@ module.exports = function (obj, types) {
   }
 };
 
-},{"./flag":13,"assertion-error":30,"type-detect":35}],13:[function(require,module,exports){
+},{"./flag":13,"assertion-error":31,"type-detect":36}],13:[function(require,module,exports){
 /*!
  * Chai - flag utility
  * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
@@ -4712,7 +4626,7 @@ module.exports = function hasProperty(name, obj) {
   return name in obj;
 };
 
-},{"type-detect":35}],22:[function(require,module,exports){
+},{"type-detect":36}],22:[function(require,module,exports){
 /*!
  * chai
  * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
@@ -4844,7 +4758,7 @@ exports.addChainableMethod = require('./addChainableMethod');
 
 exports.overwriteChainableMethod = require('./overwriteChainableMethod');
 
-},{"./addChainableMethod":9,"./addMethod":10,"./addProperty":11,"./expectTypes":12,"./flag":13,"./getActual":14,"./getMessage":16,"./getName":17,"./getPathInfo":18,"./getPathValue":19,"./hasProperty":21,"./inspect":23,"./objDisplay":24,"./overwriteChainableMethod":25,"./overwriteMethod":26,"./overwriteProperty":27,"./test":28,"./transferFlags":29,"deep-eql":31,"type-detect":35}],23:[function(require,module,exports){
+},{"./addChainableMethod":9,"./addMethod":10,"./addProperty":11,"./expectTypes":12,"./flag":13,"./getActual":14,"./getMessage":16,"./getName":17,"./getPathInfo":18,"./getPathValue":19,"./hasProperty":21,"./inspect":23,"./objDisplay":24,"./overwriteChainableMethod":25,"./overwriteMethod":26,"./overwriteProperty":27,"./test":28,"./transferFlags":29,"deep-eql":32,"type-detect":36}],23:[function(require,module,exports){
 // This is (almost) directly from Node.js utils
 // https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 
@@ -5478,6 +5392,105 @@ module.exports = function (assertion, object, includeAll) {
 };
 
 },{}],30:[function(require,module,exports){
+module.exports = function factory() {
+    /*!
+     * chai
+     * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
+     * MIT Licensed
+     */
+
+    var used = []
+      , chai = {};
+
+    /*!
+     * Chai version
+     */
+
+    chai.version = '3.5.0';
+
+    /*!
+     * Assertion Error
+     */
+
+    chai.AssertionError = require('assertion-error');
+
+    /*!
+     * Utils for plugins (not exported)
+     */
+
+    var util = require('./chai/utils');
+
+    /**
+     * # .use(function)
+     *
+     * Provides a way to extend the internals of Chai
+     *
+     * @param {Function}
+     * @returns {this} for chaining
+     * @api public
+     */
+
+    chai.use = function (fn) {
+      if (!~used.indexOf(fn)) {
+        fn(this, util);
+        used.push(fn);
+      }
+
+      return this;
+    };
+
+    /*!
+     * Utility Functions
+     */
+
+    chai.util = util;
+
+    /*!
+     * Configuration
+     */
+
+    var config = require('./chai/config');
+    chai.config = config;
+
+    /*!
+     * Primary `Assertion` prototype
+     */
+
+    var assertion = require('./chai/assertion');
+    chai.use(assertion);
+
+    /*!
+     * Core Assertions
+     */
+
+    var core = require('./chai/core/assertions');
+    chai.use(core);
+
+    /*!
+     * Expect interface
+     */
+
+    var expect = require('./chai/interface/expect');
+    chai.use(expect);
+
+    /*!
+     * Should interface
+     */
+
+    var should = require('./chai/interface/should');
+    chai.use(should);
+
+    /*!
+     * Assert interface
+     */
+
+    var assert = require('./chai/interface/assert');
+    chai.use(assert);
+
+    return chai;
+}
+
+},{"./chai/assertion":3,"./chai/config":4,"./chai/core/assertions":5,"./chai/interface/assert":6,"./chai/interface/expect":7,"./chai/interface/should":8,"./chai/utils":22,"assertion-error":31}],31:[function(require,module,exports){
 /*!
  * assertion-error
  * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
@@ -5591,10 +5604,10 @@ AssertionError.prototype.toJSON = function (stack) {
   return props;
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = require('./lib/eql');
 
-},{"./lib/eql":32}],32:[function(require,module,exports){
+},{"./lib/eql":33}],33:[function(require,module,exports){
 /*!
  * deep-eql
  * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
@@ -5853,10 +5866,10 @@ function objectEqual(a, b, m) {
   return true;
 }
 
-},{"buffer":undefined,"type-detect":33}],33:[function(require,module,exports){
+},{"buffer":undefined,"type-detect":34}],34:[function(require,module,exports){
 module.exports = require('./lib/type');
 
-},{"./lib/type":34}],34:[function(require,module,exports){
+},{"./lib/type":35}],35:[function(require,module,exports){
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
@@ -6000,9 +6013,9 @@ Library.prototype.test = function (obj, type) {
   }
 };
 
-},{}],35:[function(require,module,exports){
-arguments[4][33][0].apply(exports,arguments)
-},{"./lib/type":36,"dup":33}],36:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
+arguments[4][34][0].apply(exports,arguments)
+},{"./lib/type":37,"dup":34}],37:[function(require,module,exports){
 /*!
  * type-detect
  * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
